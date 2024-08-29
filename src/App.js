@@ -4,7 +4,7 @@ import ReactModal from 'react-modal';
 import YouTube from 'react-youtube';
 import './App.css';
 
-// For accessibility reasons, it's good to set the root element for ReactModal
+
 ReactModal.setAppElement('#root');
 
 const App = () => {
@@ -26,14 +26,14 @@ const App = () => {
       const response = searchQuery
         ? await axios.get('https://api.themoviedb.org/3/search/movie', {
             params: {
-              api_key: '1ed011566a44232f76b6cdaf845c8eb2', // Replace with your actual API key
+              api_key: '1ed011566a44232f76b6cdaf845c8eb2', 
               query: searchQuery,
               page: currentPage,
             },
           })
         : await axios.get('https://api.themoviedb.org/3/movie/now_playing', {
             params: {
-              api_key: '1ed011566a44232f76b6cdaf845c8eb2', // Replace with your actual API key
+              api_key: '1ed011566a44232f76b6cdaf845c8eb2', 
               page: currentPage,
             },
           });
@@ -54,7 +54,7 @@ const App = () => {
     try {
       const response = await axios.get(`https://api.themoviedb.org/3/movie/${movie.id}/videos`, {
         params: {
-          api_key: '1ed011566a44232f76b6cdaf845c8eb2', // Replace with your actual API key
+          api_key: '1ed011566a44232f76b6cdaf845c8eb2', 
         },
       });
 
@@ -83,9 +83,29 @@ const App = () => {
     }
   };
 
+  const createPageNumbers = () => {
+    const pages = [];
+    const maxPagesToShow = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+    let endPage = Math.min(totalPages, currentPage + Math.floor(maxPagesToShow / 2));
+
+    if (endPage - startPage + 1 < maxPagesToShow) {
+      if (startPage === 1) {
+        endPage = Math.min(totalPages, maxPagesToShow);
+      } else if (endPage === totalPages) {
+        startPage = Math.max(1, totalPages - maxPagesToShow + 1);
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+    return pages;
+  };
+
   const opts = {
-    height: '315',
-    width: '560',
+    height: '315', 
+    width: '560', 
     playerVars: {
       autoplay: 1,
     },
@@ -126,39 +146,48 @@ const App = () => {
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
             >
-              Previous
+              &laquo; Previous
             </button>
-            <span>Page {currentPage} of {totalPages}</span>
+            {createPageNumbers().map(page => (
+              <button
+                key={page}
+                className={page === currentPage ? 'active' : ''}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </button>
+            ))}
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
             >
-              Next
+              Next &raquo;
             </button>
+            <span className="page-info">Page {currentPage} of {totalPages}</span>
           </div>
         </>
       )}
       {selectedMovie && (
         <ReactModal isOpen={showModal} onRequestClose={closeModal} className="modal">
+          <button onClick={closeModal} className="close-button">Close</button>
           <h2>{selectedMovie.title}</h2>
-          {selectedMovie.trailerId ? (
-            <YouTube
-              videoId={selectedMovie.trailerId}
-              opts={opts}
-              className="youtube-video"
-              onReady={(e) => console.log('Player ready:', e)}
-              onPlay={() => console.log('Video playing')}
-              onPause={() => console.log('Video paused')}
-              onEnd={() => console.log('Video ended')}
-              onError={(e) => console.error('Error:', e)}
-              onStateChange={(e) => console.log('State changed:', e)}
-              onPlaybackRateChange={(e) => console.log('Playback rate changed:', e)}
-              onPlaybackQualityChange={(e) => console.log('Playback quality changed:', e)}
-            />
-          ) : (
-            <p>No trailer available</p>
-          )}
-          <button onClick={closeModal}>Close</button>
+          <div className="modal-content">
+            <div className="youtube-video">
+              {selectedMovie.trailerId ? (
+                <YouTube
+                  videoId={selectedMovie.trailerId}
+                  opts={opts}
+                  className="youtube-video"
+                />
+              ) : (
+                <p>No trailer available</p>
+              )}
+            </div>
+            <div className="synopsis">
+              <h3>Synopsis</h3>
+              <p>{selectedMovie.overview}</p>
+            </div>
+          </div>
         </ReactModal>
       )}
     </div>

@@ -36,7 +36,7 @@
     transform: rotate(360deg);
   }
 }
-/* src/App.css */
+
 
 body {
   font-family: Arial, sans-serif;
@@ -50,7 +50,10 @@ body {
   margin: 0 auto;
   padding: 20px;
   text-align: center;
+  font-family: 'Roboto', sans-serif;
+  color: #333;
 }
+
 
 h1 {
   color: #333;
@@ -108,16 +111,16 @@ h1 {
   color: #777;
 }
 
-/* App.css */
 
-/* App.css */
+
+
 
 
 .movie-item {
   margin: 10px;
   text-align: center;
-  cursor: default; /* Ensure cursor does not change to pointer */
-  transition: transform 0.3s ease; /* Optional: for smooth scaling effect */
+  cursor: default;
+  transition: transform 0.3s ease;
 }
 
 .movie-item:hover {
@@ -130,11 +133,11 @@ h1 {
 .movie-item h3 {
   margin: 0;
   font-size: 16px;
-  transition: color 0.3s ease; /* Smooth color transition on hover */
+  transition: color 0.3s ease;
 }
 
 .movie-item:hover h3 {
-  color: #ff4500; /* Change color of the title on hover */
+  color: #ff4500;
 }
 
 .modal {
@@ -157,4 +160,180 @@ h1 {
 
 button {
   margin-top: 10px;
+}
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+
+.pagination button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(45deg, #007bff, #00aaff);
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.pagination button:hover {
+  background: linear-gradient(45deg, #00aaff, #007bff);
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.pagination button:disabled {
+  background: linear-gradient(45deg, #cce0ff, #b3d1ff);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.pagination .active {
+  background: linear-gradient(45deg, #0056b3, #004494);
+  color: #fff;
+  border: 2px solid #003d7a;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.pagination .page-info {
+  margin: 0 10px;
+  font-size: 16px;
+  color: #007bff;
+}
+
+
+.modal {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.modal h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.modal button {
+  margin-top: 20px;
+  background: linear-gradient(45deg, #007bff, #0056b3);
+  border: none;
+  padding: 10px 20px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 50px;
+  transition: background 0.3s ease;
+}
+
+.modal button:hover {
+  background: linear-gradient(45deg, #0056b3, #004494);
+}
+
+.youtube-video {
+  border-radius: 12px;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background: #007bff;
+  border: none;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.pagination button:hover {
+  background: #0056b3;
+}
+
+.pagination .active {
+  background: #0056b3;
+  font-weight: bold;
+}
+
+
+.ReactModal__Content--after-open {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  width: 80vw; 
+  max-width: 600px;
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.youtube-video {
+  flex: 1;
+  height: 315px; 
+  width: 100%; 
+
+}
+
+.synopsis {
+  flex: 1;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.synopsis h3 {
+  margin-top: 0;
+}
+
+.synopsis p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #007bff;
+  border: none;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.close-button:hover {
+  background: #0056b3;
 }
