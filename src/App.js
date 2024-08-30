@@ -115,6 +115,12 @@ const App = () => {
   return (
     <div className="app-container">
       <h1>TDMovies</h1>
+     <button
+  onClick={() => handlePageChange(1)} // Set to page 1
+  disabled={currentPage === 1} // Disable if already on page 1
+>
+  &laquo; Home
+</button>
       <form className="search-form" onSubmit={(e) => e.preventDefault()}>
         <input
           type="text"

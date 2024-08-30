@@ -37,7 +37,6 @@
   }
 }
 
-
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -52,8 +51,10 @@ body {
   text-align: center;
   font-family: 'Roboto', sans-serif;
   color: #333;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
-
 
 h1 {
   color: #0d6859;
@@ -88,6 +89,7 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  flex-grow: 1;
 }
 
 .movie-item {
@@ -96,6 +98,9 @@ h1 {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 200px;
+  text-align: center;
+  cursor: default;
+  transition: transform 0.3s ease;
 }
 
 .movie-item img {
@@ -104,114 +109,23 @@ h1 {
 }
 
 .movie-item h3 {
-  font-size: 18px;
+  font-size: 16px;
   color: #333;
-}
-
-.movie-item p {
-  color: #777;
-}
-
-
-
-
-
-
-.movie-item {
-  margin: 10px;
-  text-align: center;
-  cursor: default;
-  transition: transform 0.3s ease;
+  margin: 0;
+  transition: color 0.3s ease;
 }
 
 .movie-item:hover {
-  
-  transform: scale(1.05); 
-}
-
-
-
-.movie-item h3 {
-  margin: 0;
-  font-size: 16px;
-  transition: color 0.3s ease;
+  transform: scale(1.05);
 }
 
 .movie-item:hover h3 {
   color: #ff4500;
 }
 
-.modal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 80%;
-  max-height: 80%;
+.movie-item p {
+  color: #777;
 }
-
-
-.modal iframe {
-  width: 100%;
-  height: 315px;
-}
-
-button {
-  margin-top: 10px;
-}
-
-.pagination {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-
-.pagination button {
-  padding: 10px 20px;
-  margin: 5px;
-  border: none;
-  border-radius: 50px;
-  background: linear-gradient(45deg, #007bff, #00aaff);
-  color: white;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.pagination button:hover {
-  background: linear-gradient(45deg, #00aaff, #007bff);
-  transform: scale(1.1);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-.pagination button:disabled {
-  background: linear-gradient(45deg, #cce0ff, #b3d1ff);
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.pagination .active {
-  background: linear-gradient(45deg, #0056b3, #004494);
-  color: #fff;
-  border: 2px solid #003d7a;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-.pagination .page-info {
-  margin: 0 10px;
-  font-size: 16px;
-  color: #007bff;
-}
-
 
 .modal {
   position: relative;
@@ -222,7 +136,9 @@ button {
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
+  max-width: 80vw;
+  max-height: 80vh;
+  overflow: auto;
 }
 
 .modal h2 {
@@ -248,61 +164,9 @@ button {
 
 .youtube-video {
   border-radius: 12px;
-}
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.pagination button {
-  background: #007bff;
-  border: none;
-  color: #fff;
-  padding: 10px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.pagination button:hover {
-  background: #0056b3;
-}
-
-.pagination .active {
-  background: #0056b3;
-  font-weight: bold;
-}
-
-
-.ReactModal__Content--after-open {
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 10px;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  width: 80vw; 
-  max-width: 600px;
-  max-height: 80vh;
-  overflow: auto;
-}
-
-.modal-content {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-}
-
-.youtube-video {
   flex: 1;
-  height: 315px; 
-  width: 100%; 
-
+  height: 315px;
+  width: 100%;
 }
 
 .synopsis {
@@ -350,7 +214,6 @@ button {
   position: relative;
 }
 
-
 @media (min-width: 768px) {
   .footer {
     font-size: 16px;
@@ -365,15 +228,71 @@ button {
   }
 }
 
-
-.app-container {
-  min-height: 100vh;
+.pagination {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
 }
 
-.movies-list {
-  flex-grow: 1;
+.pagination button {
+  background: #007bff;
+  border: none;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
+.pagination button:hover {
+  background: #0056b3;
+}
 
+.pagination .active {
+  background: #0056b3;
+  font-weight: bold;
+}
+
+.ReactModal__Content--after-open {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  width: 80vw;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow: auto;
+}
+
+/* Button */
+.app-container button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: white;
+  width: 100px;
+  background-color: #3b82f6; /* Blue background */
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Button Hover and Focus */
+.app-container button:hover:not(:disabled),
+.app-container button:focus:not(:disabled) {
+  background-color: #2563eb; /* Darker blue */
+  transform: scale(1.05);
+}
+
+/* Button Disabled */
+.app-container button:disabled {
+  background-color: #94a3b8; /* Grayish-blue for disabled state */
+  cursor: not-allowed;
+  opacity: 0.6;
+}
