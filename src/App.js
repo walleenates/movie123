@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
 import YouTube from 'react-youtube';
+import fetch from "node-fetch";
 import './App.css';
 
 ReactModal.setAppElement('#root');
@@ -14,6 +15,14 @@ const App = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const Options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZWQwMTE1NjZhNDQyMzJmNzZiNmNkYWY4NDVjOGViMiIsIm5iZiI6MTcyNDkzNzQzMy4wMTI3ODEsInN1YiI6IjY2ZDA3MjJkNmQ3OWM1Nzg5M2QzMzUwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.5a5dk0UrND8u2MGUbCrTKa8jnK3zYDxyB6lghCL5JOI"
+    },
+  };
 
   useEffect(() => {
     fetchMovies();
@@ -22,19 +31,8 @@ const App = () => {
   const fetchMovies = async () => {
     try {
       const response = searchQuery
-        ? await fetch ('https://api.themoviedb.org/3/search/movie', {
-            params: {
-              api_key: '1ed011566a44232f76b6cdaf845c8eb2', // Replace with your actual API key
-              query: searchQuery,
-              page: currentPage,
-            },
-          })
-        : await fetch ('https://api.themoviedb.org/3/movie/now_playing', {
-            params: {
-              api_key: '1ed011566a44232f76b6cdaf845c8eb2', // Replace with your actual API key
-              page: currentPage,
-            },
-          });
+        ? await fetch ('https://api.themoviedb.org/3/search/movie', Options)
+        : await fetch ('https://api.themoviedb.org/3/movie/now_playing', Options);
 
       setMovies(response.data.results);
       setTotalPages(response.data.total_pages);
@@ -50,11 +48,7 @@ const App = () => {
     setShowModal(true);
 
     try {
-      const response = await fetch (`https://api.themoviedb.org/3/movie/${movie.id}/videos`, {
-        params: {
-          api_key: '1ed011566a44232f76b6cdaf845c8eb2', // Replace with your actual API key
-        },
-      });
+      const response = await fetch (`https://api.themoviedb.org/3/movie/${movie.id}/videos`, Options);
 
       const trailer = response.data.results.find(video => video.type === 'Trailer');
       if (trailer) {
