@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import ReactModal from 'react-modal';
 import YouTube from 'react-youtube';
 import './App.css';
@@ -23,14 +22,14 @@ const App = () => {
   const fetchMovies = async () => {
     try {
       const response = searchQuery
-        ? await axios.get('https://api.themoviedb.org/3/search/movie', {
+        ? await fetch ('https://api.themoviedb.org/3/search/movie', {
             params: {
               api_key: '1ed011566a44232f76b6cdaf845c8eb2', // Replace with your actual API key
               query: searchQuery,
               page: currentPage,
             },
           })
-        : await axios.get('https://api.themoviedb.org/3/movie/now_playing', {
+        : await fetch ('https://api.themoviedb.org/3/movie/now_playing', {
             params: {
               api_key: '1ed011566a44232f76b6cdaf845c8eb2', // Replace with your actual API key
               page: currentPage,
@@ -51,7 +50,7 @@ const App = () => {
     setShowModal(true);
 
     try {
-      const response = await axios.get(`https://api.themoviedb.org/3/movie/${movie.id}/videos`, {
+      const response = await fetch (`https://api.themoviedb.org/3/movie/${movie.id}/videos`, {
         params: {
           api_key: '1ed011566a44232f76b6cdaf845c8eb2', // Replace with your actual API key
         },
