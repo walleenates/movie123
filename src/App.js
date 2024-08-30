@@ -27,14 +27,14 @@ const App = () => {
       const response = searchQuery
         ? await axios.get('https://api.themoviedb.org/3/search/movie', {
             params: {
-              api_key: '1ed011566a44232f76b6cdaf845c8eb2', // Replace with your actual API key
+              api_key: '1ed011566a44232f76b6cdaf845c8eb2', 
               query: searchQuery,
               page: currentPage,
             },
           })
         : await axios.get('https://api.themoviedb.org/3/movie/now_playing', {
             params: {
-              api_key: '1ed011566a44232f76b6cdaf845c8eb2', // Replace with your actual API key
+              api_key: '1ed011566a44232f76b6cdaf845c8eb2', 
               page: currentPage,
             },
           });
@@ -55,7 +55,7 @@ const App = () => {
     try {
       const response = await axios.get(`https://api.themoviedb.org/3/movie/${movie.id}/videos`, {
         params: {
-          api_key: '1ed011566a44232f76b6cdaf845c8eb2', // Replace with your actual API key
+          api_key: '1ed011566a44232f76b6cdaf845c8eb2', 
         },
       });
 
