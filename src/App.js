@@ -4,7 +4,6 @@ import ReactModal from 'react-modal';
 import YouTube from 'react-youtube';
 import './App.css';
 
-
 ReactModal.setAppElement('#root');
 
 const App = () => {
@@ -19,21 +18,21 @@ const App = () => {
 
   useEffect(() => {
     fetchMovies();
-  }, [searchQuery, currentPage]);
+  });
 
   const fetchMovies = async () => {
     try {
       const response = searchQuery
         ? await axios.get('https://api.themoviedb.org/3/search/movie', {
             params: {
-              api_key: '1ed011566a44232f76b6cdaf845c8eb2', 
+              api_key: '1ed011566a44232f76b6cdaf845c8eb2', // Replace with your actual API key
               query: searchQuery,
               page: currentPage,
             },
           })
         : await axios.get('https://api.themoviedb.org/3/movie/now_playing', {
             params: {
-              api_key: '1ed011566a44232f76b6cdaf845c8eb2', 
+              api_key: '1ed011566a44232f76b6cdaf845c8eb2', // Replace with your actual API key
               page: currentPage,
             },
           });
@@ -54,7 +53,7 @@ const App = () => {
     try {
       const response = await axios.get(`https://api.themoviedb.org/3/movie/${movie.id}/videos`, {
         params: {
-          api_key: '1ed011566a44232f76b6cdaf845c8eb2', 
+          api_key: '1ed011566a44232f76b6cdaf845c8eb2', // Replace with your actual API key
         },
       });
 
@@ -169,25 +168,25 @@ const App = () => {
       )}
       {selectedMovie && (
         <ReactModal isOpen={showModal} onRequestClose={closeModal} className="modal">
-          <button onClick={closeModal} className="close-button">Close</button>
           <h2>{selectedMovie.title}</h2>
           <div className="modal-content">
-            <div className="youtube-video">
-              {selectedMovie.trailerId ? (
-                <YouTube
-                  videoId={selectedMovie.trailerId}
-                  opts={opts}
-                  className="youtube-video"
-                />
-              ) : (
-                <p>No trailer available</p>
-              )}
-            </div>
+            <YouTube
+              videoId={selectedMovie.trailerId}
+              opts={opts}
+              className="youtube-video"
+            />
             <div className="synopsis">
               <h3>Synopsis</h3>
               <p>{selectedMovie.overview}</p>
+              <button 
+                className="play-button"
+                onClick={() => window.open(`https://vidsrc.xyz/embed/movie?tmdb=${selectedMovie.id}`, '_blank')}
+              >
+                Play Movie
+              </button>
             </div>
           </div>
+          <button className="close-button" onClick={closeModal}>Close</button>
         </ReactModal>
       )}
     </div>
