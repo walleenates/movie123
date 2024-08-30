@@ -114,7 +114,7 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <h1>WeMovies</h1>
+      <h1>TDMovies</h1>
       <form className="search-form" onSubmit={(e) => e.preventDefault()}>
         <input
           type="text"
@@ -190,7 +190,11 @@ const App = () => {
           </div>
           <button className="close-button" onClick={closeModal}>Close</button>
         </ReactModal>
+        
       )}
+      <footer className="footer">
+        <p>&copy; 2024 AtesMovies. All rights reserved.</p>
+      </footer>
     </div>
   );
 };

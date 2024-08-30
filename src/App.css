@@ -56,7 +56,8 @@ body {
 
 
 h1 {
-  color: #333;
+  color: #0d6859;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .search-form {
@@ -337,3 +338,42 @@ button {
 .close-button:hover {
   background: #0056b3;
 }
+
+.footer {
+  background-color: #135256;
+  color: white;
+  text-align: center;
+  padding: 10px 10px;
+  width: 100%;
+  bottom: 0;
+  font-size: 14px;
+  position: relative;
+}
+
+
+@media (min-width: 768px) {
+  .footer {
+    font-size: 16px;
+    padding: 20px 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer {
+    font-size: 18px;
+    padding: 25px 20px;
+  }
+}
+
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.movies-list {
+  flex-grow: 1;
+}
+
+
