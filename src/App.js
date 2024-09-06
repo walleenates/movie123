@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'; // Import useCallback
+import React, { useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
 import YouTube from 'react-youtube';
 import './App.css';
@@ -16,37 +16,36 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  // Use useCallback to memoize fetchMovies
-  const fetchMovies = useCallback(async () => {
+  useEffect(() => {
+    fetchMovies();
+  }, [searchQuery, currentPage]);
+
+  const fetchMovies = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const response = searchQuery
         ? await axios.get('https://api.themoviedb.org/3/search/movie', {
             params: {
-              api_key: '1ed011566a44232f76b6cdaf845c8eb2', 
+              api_key: '1ed011566a44232f76b6cdaf845c8eb2',
               query: searchQuery,
               page: currentPage,
             },
           })
         : await axios.get('https://api.themoviedb.org/3/movie/now_playing', {
             params: {
-              api_key: '1ed011566a44232f76b6cdaf845c8eb2', 
+              api_key: '1ed011566a44232f76b6cdaf845c8eb2',
               page: currentPage,
             },
           });
 
       setMovies(response.data.results);
       setTotalPages(response.data.total_pages);
-      setLoading(false);
     } catch (err) {
       setError(err.message);
+    } finally {
       setLoading(false);
     }
-  }, [searchQuery, currentPage]); // Add searchQuery and currentPage as dependencies
-
-  useEffect(() => {
-    fetchMovies();
-  }, [fetchMovies]); // Include fetchMovies in dependency array
+  };
 
   const handleHomeClick = () => {
     setSearchQuery('');
@@ -60,19 +59,15 @@ const App = () => {
     try {
       const response = await axios.get(`https://api.themoviedb.org/3/movie/${movie.id}/videos`, {
         params: {
-          api_key: '1ed011566a44232f76b6cdaf845c8eb2', 
+          api_key: '1ed011566a44232f76b6cdaf845c8eb2',
         },
       });
 
       const trailer = response.data.results.find(video => video.type === 'Trailer');
-      if (trailer) {
-        setSelectedMovie(prevMovie => ({
-          ...prevMovie,
-          trailerId: trailer.key,
-        }));
-      } else {
-        setSelectedMovie(prevMovie => ({ ...prevMovie, trailerId: null }));
-      }
+      setSelectedMovie(prevMovie => ({
+        ...prevMovie,
+        trailerId: trailer ? trailer.key : null,
+      }));
     } catch (err) {
       setError(err.message);
     }
@@ -110,8 +105,8 @@ const App = () => {
   };
 
   const opts = {
-    height: '315', 
-    width: '560', 
+    height: '315',
+    width: '560',
     playerVars: {
       autoplay: 1,
     },
@@ -125,7 +120,6 @@ const App = () => {
           Home
         </button>
       </header>
-
       <form className="search-form" onSubmit={(e) => e.preventDefault()}>
         <input
           type="text"
@@ -134,7 +128,6 @@ const App = () => {
           placeholder="Search for a movie..."
         />
       </form>
-
       {loading ? (
         <p>Loading...</p>
       ) : error ? (
@@ -154,7 +147,6 @@ const App = () => {
               </div>
             ))}
           </div>
-
           <div className="pagination">
             <button
               onClick={() => handlePageChange(currentPage - 1)}
@@ -181,7 +173,6 @@ const App = () => {
           </div>
         </>
       )}
-
       {selectedMovie && (
         <ReactModal isOpen={showModal} onRequestClose={closeModal} className="modal">
           <h2>{selectedMovie.title}</h2>
@@ -194,7 +185,7 @@ const App = () => {
             <div className="synopsis">
               <h3>Synopsis</h3>
               <p>{selectedMovie.overview}</p>
-              <button 
+              <button
                 className="play-button"
                 onClick={() => window.open(`https://vidsrc.xyz/embed/movie?tmdb=${selectedMovie.id}`, '_blank')}
               >
@@ -205,7 +196,6 @@ const App = () => {
           <button className="close-button" onClick={closeModal}>Close</button>
         </ReactModal>
       )}
-
       <footer className="footer">
         <p>&copy; 2024 AtesMovies. All rights reserved.</p>
       </footer>
