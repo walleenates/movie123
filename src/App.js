@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useEffect, useCallback } from 'react'; // Import useCallback
 import ReactModal from 'react-modal';
 import YouTube from 'react-youtube';
 import './App.css';
@@ -17,13 +16,10 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    fetchMovies();
-  });
-
-  const fetchMovies = async () => {
-    
+  // Use useCallback to memoize fetchMovies
+  const fetchMovies = useCallback(async () => {
     try {
+      setLoading(true);
       const response = searchQuery
         ? await axios.get('https://api.themoviedb.org/3/search/movie', {
             params: {
@@ -46,6 +42,15 @@ const App = () => {
       setError(err.message);
       setLoading(false);
     }
+  }, [searchQuery, currentPage]); // Add searchQuery and currentPage as dependencies
+
+  useEffect(() => {
+    fetchMovies();
+  }, [fetchMovies]); // Include fetchMovies in dependency array
+
+  const handleHomeClick = () => {
+    setSearchQuery('');
+    setCurrentPage(1);
   };
 
   const handleMovieClick = async (movie) => {
@@ -114,13 +119,13 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <h1>TDMovies</h1>
-     <button
-  onClick={() => handlePageChange(1)} // Set to page 1
-  disabled={currentPage === 1} // Disable if already on page 1
->
-  &laquo; Home
-</button>
+      <header>
+        <h1>TDMovies</h1>
+        <button className="home-button" onClick={handleHomeClick}>
+          Home
+        </button>
+      </header>
+
       <form className="search-form" onSubmit={(e) => e.preventDefault()}>
         <input
           type="text"
@@ -129,6 +134,7 @@ const App = () => {
           placeholder="Search for a movie..."
         />
       </form>
+
       {loading ? (
         <p>Loading...</p>
       ) : error ? (
@@ -148,6 +154,7 @@ const App = () => {
               </div>
             ))}
           </div>
+
           <div className="pagination">
             <button
               onClick={() => handlePageChange(currentPage - 1)}
@@ -174,6 +181,7 @@ const App = () => {
           </div>
         </>
       )}
+
       {selectedMovie && (
         <ReactModal isOpen={showModal} onRequestClose={closeModal} className="modal">
           <h2>{selectedMovie.title}</h2>
@@ -196,8 +204,8 @@ const App = () => {
           </div>
           <button className="close-button" onClick={closeModal}>Close</button>
         </ReactModal>
-        
       )}
+
       <footer className="footer">
         <p>&copy; 2024 AtesMovies. All rights reserved.</p>
       </footer>
